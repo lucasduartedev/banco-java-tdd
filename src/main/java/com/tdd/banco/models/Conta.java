@@ -1,6 +1,7 @@
 package com.tdd.banco.models;
 
 import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
+import com.tdd.banco.exceptions.ContaSaqueComSaldoInsuficiente;
 import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
 
 public class Conta {
@@ -35,23 +36,36 @@ public class Conta {
 	}
 
 	// Métodos Especiais
-	public double depositar(double valorDeposito) throws ContaDepositoValorNegativoException {
+	
+	private void inserirSaldo(double valor) {
+		this.setSaldo(getSaldo() + valor);
+	}
+	
+	private void removerSaldo(double valor) {
+		this.setSaldo(this.getSaldo() - valor);
+	}
+	
+	public void depositar(double valorDeposito) throws ContaDepositoValorNegativoException {
 		if(valorDeposito < 0.0) {
 			throw new ContaDepositoValorNegativoException("Deposito com valor negativo");
 		}
 		if(valorDeposito > 0.0) {
-			this.setSaldo(this.getSaldo() + valorDeposito);
-			return valorDeposito;
+			this.inserirSaldo(valorDeposito);
 		}
-		return 0.0;
 	}
 	
-	public double sacar(double valorSaque) throws ContaSaqueComValorNegativoException {
-		if(valorSaque <= 0.0) {
+	public void sacar(double valorSaque) throws ContaSaqueComValorNegativoException, ContaSaqueComSaldoInsuficiente {
+		if(valorSaque < 0.0) {
 			throw new ContaSaqueComValorNegativoException("Saque com valor negativo");
 		}
-		return 0.0;
+		else if(this.getSaldo() < valorSaque) {
+			throw new ContaSaqueComSaldoInsuficiente("Saldo insuficiente");
+		}
+		else {
+			this.removerSaldo(valorSaque);
+		}
 	}
+	
 
 	// Getters e Setters
 	public Long getId() {

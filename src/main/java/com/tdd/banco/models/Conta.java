@@ -1,5 +1,8 @@
 package com.tdd.banco.models;
 
+import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
+import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
+
 public class Conta {
 
 	private Long id;
@@ -24,11 +27,30 @@ public class Conta {
 		this.cliente = cliente;
 	}
 
-	public Conta(String conta, String agencia, double saldo, Cliente cliente) {
+	public Conta(String conta, String agencia, Cliente cliente) {
 		this.conta = conta;
 		this.agencia = agencia;
-		this.saldo = saldo;
+		this.saldo = 0.0;
 		this.cliente = cliente;
+	}
+
+	// Métodos Especiais
+	public double depositar(double valorDeposito) throws ContaDepositoValorNegativoException {
+		if(valorDeposito < 0.0) {
+			throw new ContaDepositoValorNegativoException("Deposito com valor negativo");
+		}
+		if(valorDeposito > 0.0) {
+			this.setSaldo(this.getSaldo() + valorDeposito);
+			return valorDeposito;
+		}
+		return 0.0;
+	}
+	
+	public double sacar(double valorSaque) throws ContaSaqueComValorNegativoException {
+		if(valorSaque <= 0.0) {
+			throw new ContaSaqueComValorNegativoException("Saque com valor negativo");
+		}
+		return 0.0;
 	}
 
 	// Getters e Setters
@@ -119,5 +141,5 @@ public class Conta {
 			return false;
 		return true;
 	}
-	
+
 }

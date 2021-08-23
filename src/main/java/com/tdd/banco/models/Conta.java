@@ -3,6 +3,8 @@ package com.tdd.banco.models;
 import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
 import com.tdd.banco.exceptions.ContaSaqueComSaldoInsuficiente;
 import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
+import com.tdd.banco.exceptions.ContaTranferenciaComContaDestidoInexistente;
+import com.tdd.banco.exceptions.ContaTransferenciaComValorAbaixoDoMinimo;
 
 public class Conta {
 
@@ -36,36 +38,42 @@ public class Conta {
 	}
 
 	// Métodos Especiais
-	
+
 	private void inserirSaldo(double valor) {
 		this.setSaldo(getSaldo() + valor);
 	}
-	
+
 	private void removerSaldo(double valor) {
 		this.setSaldo(this.getSaldo() - valor);
 	}
-	
+
 	public void depositar(double valorDeposito) throws ContaDepositoValorNegativoException {
-		if(valorDeposito < 0.0) {
+		if (valorDeposito < 0.0) {
 			throw new ContaDepositoValorNegativoException("Deposito com valor negativo");
 		}
-		if(valorDeposito > 0.0) {
-			this.inserirSaldo(valorDeposito);
-		}
+		this.inserirSaldo(valorDeposito);
 	}
-	
+
 	public void sacar(double valorSaque) throws ContaSaqueComValorNegativoException, ContaSaqueComSaldoInsuficiente {
-		if(valorSaque < 0.0) {
+		if (valorSaque < 0.0) {
 			throw new ContaSaqueComValorNegativoException("Saque com valor negativo");
-		}
-		else if(this.getSaldo() < valorSaque) {
+		} else if (this.getSaldo() < valorSaque) {
 			throw new ContaSaqueComSaldoInsuficiente("Saldo insuficiente");
 		}
-		else {
-			this.removerSaldo(valorSaque);
-		}
+		this.removerSaldo(valorSaque);
 	}
-	
+
+	public void transferir(Conta conta, double valorTransferencia) throws ContaTransferenciaComValorAbaixoDoMinimo, ContaTranferenciaComContaDestidoInexistente {
+		// Verificar valor minimo informado
+		if(conta == null) {
+			throw new ContaTranferenciaComContaDestidoInexistente("É necessario uma conta de destino");
+		}
+		if (valorTransferencia <= 0.0) {
+			throw new ContaTransferenciaComValorAbaixoDoMinimo("E necessario valor minimo");
+		}
+		this.removerSaldo(valorTransferencia);
+		conta.inserirSaldo(valorTransferencia);
+	}
 
 	// Getters e Setters
 	public Long getId() {

@@ -11,92 +11,167 @@ import org.junit.rules.ErrorCollector;
 import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
 import com.tdd.banco.exceptions.ContaSaqueComSaldoInsuficiente;
 import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
+import com.tdd.banco.exceptions.ContaTranferenciaComContaDestidoInexistente;
+import com.tdd.banco.exceptions.ContaTransferenciaComValorAbaixoDoMinimo;
 
 public class ContaTest {
-	
-	private Cliente cliente = new Cliente("Lúcia", "68245");
-	
-	private Conta conta;
-	
+
+	private Cliente cliente1 = new Cliente("Lúcia", "68245");
+	private Cliente cliente2 = new Cliente("João", "98754");
+
+	private Conta conta1;
+	private Conta conta2;
+
 	@Before
 	public void inicioTeste() {
-		conta = new Conta("1234", "9879", cliente);
+		conta1 = new Conta("1234", "9879", cliente1);
+		conta2 = new Conta("9875", "1545", cliente2);
 	}
-	
+
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
-	
+
 	@Test
 	public void deveLancarExceptionAoDepositarValorNegativo() throws Exception {
-		
+
 		try {
-			conta.depositar(-250.5);
+			conta1.depositar(-250.5);
 			fail("Não deveria depositar valor negativo");
 		} catch (ContaDepositoValorNegativoException e) {
-			
+
 		}
 
 	}
-	
+
 	@Test
 	public void deveRealizarDepositoNaConta() throws Exception {
-		
-		//Cenario
+
+		// Cenario
 		double valorDeposito = 350.56;
-		double saldoInicial = conta.getSaldo();
-		
+		double saldoInicial = conta1.getSaldo();
+
 		// Ação
-		conta.depositar(valorDeposito);
-		
+		conta1.depositar(valorDeposito);
+
 		// Validação
-		assertEquals(saldoInicial, (conta.getSaldo() - valorDeposito), 0.001);
-		
+		assertEquals(saldoInicial, (conta1.getSaldo() - valorDeposito), 0.001);
+
 	}
-	
+
 	@Test
 	public void deveLancarExceptionAoTentarSacarInformandoValorNegativo() throws Exception {
-		
+
 		try {
-			conta.sacar(-15.9);
+			conta1.sacar(-15.9);
 			fail("Não deveria realizar saque com valor negativo");
 		} catch (ContaSaqueComValorNegativoException e) {
-			
+
 		}
-		
+
 	}
-	
+
 	@Test
 	public void naoDeveRealizarSaqueComSaldoInsuficiente() throws ContaSaqueComValorNegativoException {
 		// Cenário
-		conta.setSaldo(100.0);
-		
+		conta1.setSaldo(100.0);
+
 		// Ação
-		try {			
-			conta.sacar(150.0);
+		try {
+			conta1.sacar(150.0);
 			fail("Não deveria realizar saque com saldo insuficiente!");
 		} catch (ContaSaqueComSaldoInsuficiente e) {
 			assertEquals(e.getMessage(), "Saldo insuficiente");
 		}
-		
+
 	}
-	
+
+	@Test(expected = Exception.class)
+	public void naoDeveRealizarSaqueComSaldoInsuficiente_2() throws Exception {
+		// Cenário
+		conta1.setSaldo(50.0);
+
+		// Ação
+		conta1.sacar(100.0);
+	}
+
 	@Test
-	public void deveDescontarDiferencaNoSaldoAoRealizarSaque() throws ContaSaqueComValorNegativoException, ContaSaqueComSaldoInsuficiente {
-		
-		// Cenario
-		conta.setSaldo(125.5);
-		double valorDoSaque = 25.5;
-		
-		// Acao
-		conta.sacar(valorDoSaque);
-		
-		// Validacao
-		assertEquals(100.0, conta.getSaldo(), 0.01);
+	public void naoDeveRealizarSaqueComSaldoInsuficiente_3() throws ContaSaqueComValorNegativoException {
+		// Cenário
+		conta1.setSaldo(100.0);
+
+		// Ação
+		try {
+			conta1.sacar(150.0);
+		} catch (ContaSaqueComSaldoInsuficiente e) {
+			// Validação
+			assertEquals(e.getMessage(), "Saldo insuficiente");
+		}
+
 	}
-	
-	public void deveRealizarTransferenciaEntraContas() {
-		
-		
+
+	@Test
+	public void deveDescontarDiferencaNoSaldoAoRealizarSaque()
+			throws ContaSaqueComValorNegativoException, ContaSaqueComSaldoInsuficiente {
+
+		// Cenario
+		conta1.setSaldo(125.5);
+		double valorDoSaque = 25.5;
+
+		// Acao
+		conta1.sacar(valorDoSaque);
+
+		// Validacao
+		assertEquals(100.0, conta1.getSaldo(), 0.01);
+	}
+
+	@Test
+	public void deveLancarExceptionCasoOValorSejaNegativo() throws ContaTranferenciaComContaDestidoInexistente {
+
+		// Cenário
+		double valorTransferencia = -15.0;
+
+		// Ação
+		try {
+			conta1.transferir(conta2, valorTransferencia);
+			fail("Deveria lançar exception");
+		} catch (ContaTransferenciaComValorAbaixoDoMinimo e) {
+			// Validação
+			assertEquals(e.getMessage(), "E necessario valor minimo");
+		}
+	}
+
+	/*
+	 * Deve lançar excepiton caso o titular informe um numero negativo
+	 */
+	@Test(expected = Exception.class)
+	public void deveLancarExceptionCasoOValorSejaNegativo_2() throws Exception {
+		conta1.transferir(conta2, -15.0);
+	}
+
+	@Test
+	public void deveRealizarTransferenciaEntreDuasContas() throws ContaTransferenciaComValorAbaixoDoMinimo, ContaTranferenciaComContaDestidoInexistente {
+
+		// Cenário
+		conta1.setSaldo(150.0);
+		double valorTransferencia = 50.0;
+
+		// Ação
+		conta1.transferir(conta2, valorTransferencia);
+
+		// Validação
+		assertEquals(100.0, conta1.getSaldo(), 0.001);
+		assertEquals(50.0, conta2.getSaldo(), 0.001);
+
+	}
+
+	@Test(expected = Exception.class)
+	public void deveLancarExceptionCasoNaoExistaContaDestido() throws Exception {
+		// Cenário
+		conta1.setSaldo(150.0);
+		double valorTransferencia = 50.0;
+
+		// Ação
+		conta1.transferir(null, valorTransferencia);
 		
 	}
 

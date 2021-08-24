@@ -22,11 +22,11 @@ public class Conta {
 	public Conta() {
 	}
 
-	public Conta(Long id, String conta, String agencia, double saldo, Cliente cliente) {
+	public Conta(Long id, String conta, String agencia, Cliente cliente) {
 		this.id = id;
 		this.conta = conta;
 		this.agencia = agencia;
-		this.saldo = saldo;
+		this.saldo = 0.0;
 		this.cliente = cliente;
 	}
 

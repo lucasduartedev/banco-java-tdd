@@ -3,6 +3,7 @@ package com.tdd.banco.models;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class ContaTest {
 	private Conta conta2;
 
 	@Before
-	public void inicioTeste() {
+	public void setup() {
 		conta1 = new Conta("1234", "9879", cliente1);
 		conta2 = new Conta("9875", "1545", cliente2);
 	}
@@ -38,9 +39,14 @@ public class ContaTest {
 			conta1.depositar(-250.5);
 			fail("Não deveria depositar valor negativo");
 		} catch (ContaDepositoValorNegativoException e) {
-
+			Assert.assertEquals(e.getMessage(), "Deposito com valor negativo");
 		}
 
+	}
+	
+	@Test(expected = Exception.class)
+	public void deveLancarExceptionAoDepositarValorNegativo_2() throws Exception {
+		conta1.depositar(-250.5);
 	}
 
 	@Test

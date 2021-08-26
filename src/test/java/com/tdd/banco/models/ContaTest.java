@@ -34,14 +34,12 @@ public class ContaTest {
 
 	@Test
 	public void deveLancarExceptionAoDepositarValorNegativo() throws Exception {
-
 		try {
-			conta1.depositar(-250.5);
+			conta1.depositar(-0.1);
 			fail("Não deveria depositar valor negativo");
 		} catch (ContaDepositoValorNegativoException e) {
 			Assert.assertEquals(e.getMessage(), "Deposito com valor negativo");
 		}
-
 	}
 	
 	@Test(expected = Exception.class)
@@ -51,29 +49,24 @@ public class ContaTest {
 
 	@Test
 	public void deveRealizarDepositoNaConta() throws Exception {
-
 		// Cenario
 		double valorDeposito = 350.56;
-		double saldoInicial = conta1.getSaldo();
-
+		double saldoAposDeposito = 0.0;
 		// Ação
 		conta1.depositar(valorDeposito);
-
+		saldoAposDeposito = conta1.getSaldo();
 		// Validação
-		assertEquals(saldoInicial, (conta1.getSaldo() - valorDeposito), 0.001);
-
+		assertEquals(valorDeposito, saldoAposDeposito, 0.001);
 	}
 
 	@Test
-	public void deveLancarExceptionAoTentarSacarInformandoValorNegativo() throws Exception {
-
+	public void deveLancarExceptionAoTentarSacarValorNegativo() throws Exception {
 		try {
 			conta1.sacar(-15.9);
 			fail("Não deveria realizar saque com valor negativo");
 		} catch (ContaSaqueComValorNegativoException e) {
-
+			assertEquals(e.getMessage(), "Saque com valor negativo");
 		}
-
 	}
 
 	@Test
@@ -88,22 +81,16 @@ public class ContaTest {
 		} catch (ContaSaqueComSaldoInsuficiente e) {
 			assertEquals(e.getMessage(), "Saldo insuficiente");
 		}
-
 	}
 
 	@Test(expected = Exception.class)
 	public void naoDeveRealizarSaqueComSaldoInsuficiente_2() throws Exception {
-		// Cenário
-		conta1.setSaldo(50.0);
-
 		// Ação
 		conta1.sacar(100.0);
 	}
 
 	@Test
 	public void naoDeveRealizarSaqueComSaldoInsuficiente_3() throws ContaSaqueComValorNegativoException {
-		// Cenário
-		conta1.setSaldo(100.0);
 
 		// Ação
 		try {
@@ -112,7 +99,6 @@ public class ContaTest {
 			// Validação
 			assertEquals(e.getMessage(), "Saldo insuficiente");
 		}
-
 	}
 
 	@Test
@@ -131,14 +117,11 @@ public class ContaTest {
 	}
 
 	@Test
-	public void deveLancarExceptionCasoOValorSejaNegativo() throws ContaTranferenciaComContaDestidoInexistente {
-
-		// Cenário
-		double valorTransferencia = -15.0;
+	public void deveLancarExceptionCasoOValorDaTranferenciaSejaNegativo() throws ContaTranferenciaComContaDestidoInexistente {
 
 		// Ação
 		try {
-			conta1.transferir(conta2, valorTransferencia);
+			conta1.transferir(conta2, -5.0);
 			fail("Deveria lançar exception");
 		} catch (ContaTransferenciaComValorAbaixoDoMinimo e) {
 			// Validação
@@ -150,7 +133,7 @@ public class ContaTest {
 	 * Deve lançar excepiton caso o titular informe um numero negativo
 	 */
 	@Test(expected = Exception.class)
-	public void deveLancarExceptionCasoOValorSejaNegativo_2() throws Exception {
+	public void deveLancarExceptionCasoOValorDaTranferenciaSejaNegativo_2() throws Exception {
 		conta1.transferir(conta2, -15.0);
 	}
 
@@ -172,13 +155,8 @@ public class ContaTest {
 
 	@Test(expected = Exception.class)
 	public void deveLancarExceptionCasoNaoExistaContaDestido() throws Exception {
-		// Cenário
-		conta1.setSaldo(150.0);
-		double valorTransferencia = 50.0;
-
 		// Ação
-		conta1.transferir(null, valorTransferencia);
-		
+		conta1.transferir(null, 50.0);
 	}
 
 }

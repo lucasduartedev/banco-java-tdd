@@ -37,6 +37,14 @@ public class Conta {
 		this.cliente = cliente;
 	}
 
+	// Apenas para teste, será apagado
+//	public Conta(String conta, String agencia, double saldo, Cliente cliente) {
+//		this.conta = conta;
+//		this.agencia = agencia;
+//		this.saldo = saldo;
+//		this.cliente = cliente;
+//	}
+
 	// Métodos Especiais
 
 	private void inserirSaldo(double valor) {

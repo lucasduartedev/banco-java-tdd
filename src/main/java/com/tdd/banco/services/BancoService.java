@@ -7,7 +7,7 @@ import com.tdd.banco.models.Conta;
 public class BancoService {
 	
 	public Conta gerarContaBancaria(Cliente cliente) throws GeradorDeContaSemClienteException {
-		// Não pode gerar conta sem um titular
+		// conta sem titular
 		if(cliente == null) {
 			throw new GeradorDeContaSemClienteException("Não foi informado o cliente");
 		}

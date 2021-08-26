@@ -21,13 +21,14 @@ public class BancoServiceTest {
 	public ErrorCollector error = new ErrorCollector();
 	
 	@Before
-	public void setup() {
+	public void setup() throws GeradorDeContaSemClienteException {
 		banco1 = new BancoService();
 		cliente1 = new Cliente("Hélio", "15647");
+		conta1 = banco1.gerarContaBancaria(cliente1);
 	}
 	
 //	@Test
-	public void primeiroTest() {
+	public void deveRealizarAssertivaVerdadeira() {
 		assertTrue(true);
 	}
 	
@@ -38,19 +39,12 @@ public class BancoServiceTest {
 	
 	@Test
 	public void deveGerarContaBancariaAssociandoCliente() throws GeradorDeContaSemClienteException {
-		// Ação
-		conta1 = banco1.gerarContaBancaria(cliente1);
-		
 		// Validação
 		Assert.assertNotNull(conta1.getCliente());
-		
 	}
 	
 	@Test
 	public void deveGerarContaBancariaComSaldoZero() throws GeradorDeContaSemClienteException {
-		// Ação
-		conta1 = banco1.gerarContaBancaria(cliente1);
-		
 		// Validação
 		Assert.assertEquals(0.0, conta1.getSaldo(), 0.01);
 	}

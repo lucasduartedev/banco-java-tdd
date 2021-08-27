@@ -11,7 +11,7 @@ import org.junit.rules.ErrorCollector;
 import com.tdd.banco.exceptions.GeradorDeContaSemClienteException;
 import com.tdd.banco.services.BancoService;
 
-public class BancoServiceTest {
+public class BancoServiceGerarContaTest {
 	
 	private BancoService banco1;
 	private Cliente cliente1;

@@ -1,5 +1,7 @@
 package com.tdd.banco.models;
 
+import java.util.List;
+
 import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
 import com.tdd.banco.exceptions.ContaSaqueComSaldoInsuficiente;
 import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
@@ -17,6 +19,8 @@ public class Conta {
 	private double saldo;
 
 	private Cliente cliente;
+	
+	private List<Cartao> cartoes;
 
 	// Contrutoress
 	public Conta() {
@@ -122,6 +126,14 @@ public class Conta {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public List<Cartao> getCartoes() {
+		return cartoes;
+	}
+
+	public void setCartoes(List<Cartao> cartoes) {
+		this.cartoes = cartoes;
 	}
 
 	@Override

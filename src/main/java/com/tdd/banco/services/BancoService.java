@@ -1,6 +1,9 @@
 package com.tdd.banco.services;
 
+import com.tdd.banco.exceptions.CartaoNuloException;
+import com.tdd.banco.exceptions.CartaoSemContaVinculada;
 import com.tdd.banco.exceptions.GeradorDeContaSemClienteException;
+import com.tdd.banco.models.Cartao;
 import com.tdd.banco.models.Cliente;
 import com.tdd.banco.models.Conta;
 
@@ -21,6 +24,18 @@ public class BancoService {
 		// inserir no banco de dados conta gerada
 		
 		return conta;
+	}
+
+	public Cartao gerarCartao(Cartao cartao, Conta conta) throws CartaoSemContaVinculada, CartaoNuloException {
+		// Cartão sem conta vinculada
+		if(conta == null) {
+			throw new CartaoSemContaVinculada("Cartão deve ter um conta vinculada");
+		}
+		if(cartao == null) {
+			throw new CartaoNuloException("Cartão nao deve ser nulo");
+		}
+		
+		return cartao;
 	}
 	
 }

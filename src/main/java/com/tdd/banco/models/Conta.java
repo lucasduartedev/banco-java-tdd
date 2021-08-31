@@ -79,8 +79,7 @@ public class Conta {
 		// Verificar valor minimo informado
 		if(conta == null) {
 			throw new ContaTranferenciaComContaDestidoInexistente("É necessario uma conta de destino");
-		}
-		if (valorTransferencia <= 0.0) {
+		} else if (valorTransferencia <= 0.0) {
 			throw new ContaTransferenciaComValorAbaixoDoMinimo("E necessario valor minimo");
 		}
 		this.removerSaldo(valorTransferencia);

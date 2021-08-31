@@ -33,7 +33,7 @@ public class BancoServiceGerarContaTest {
 	}
 	
 	@Test(expected = Exception.class)
-	public void DeveLancarExceptionAoTentarCriarContaSemCLienteAssiciado() throws Exception {
+	public void DeveLancarExceptionAoTentarCriarContaSemClienteAssociado() throws Exception {
 		banco1.gerarContaBancaria(null);
 	}
 	

@@ -1,4 +1,4 @@
-package com.tdd.banco.models;
+package com.tdd.banco.services;
 
 import static org.junit.Assert.assertTrue;
 
@@ -9,7 +9,8 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
 import com.tdd.banco.exceptions.GeradorDeContaSemClienteException;
-import com.tdd.banco.services.BancoService;
+import com.tdd.banco.models.Cliente;
+import com.tdd.banco.models.Conta;
 
 public class BancoServiceGerarContaTest {
 	

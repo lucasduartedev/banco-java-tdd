@@ -22,7 +22,7 @@ public class Conta {
 	
 	private List<Cartao> cartoes;
 
-	// Contrutoress
+	// Contrutores
 	public Conta() {
 	}
 

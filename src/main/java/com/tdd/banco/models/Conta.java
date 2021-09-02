@@ -21,6 +21,8 @@ public class Conta {
 	private Cliente cliente;
 	
 	private List<Cartao> cartoes;
+	
+	private List<Emprestimo> emprestimos;
 
 	// Contrutores
 	public Conta() {
@@ -133,6 +135,14 @@ public class Conta {
 
 	public void setCartoes(List<Cartao> cartoes) {
 		this.cartoes = cartoes;
+	}
+
+	public List<Emprestimo> getEmprestimos() {
+		return emprestimos;
+	}
+
+	public void setEmprestimos(List<Emprestimo> emprestimos) {
+		this.emprestimos = emprestimos;
 	}
 
 	@Override

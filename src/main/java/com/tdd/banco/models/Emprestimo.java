@@ -10,27 +10,31 @@ public class Emprestimo {
 	
 	private double valor;
 	
-	private Date data;
-	
 	private int parcelas;
+	
+	private Date dataInicio;
+	
+	private double juros;
 
 	// Construtores
 	public Emprestimo() {
 	}
 	
-	public Emprestimo(Long id, Conta conta, double valor, Date data, int parcelas) {
+	public Emprestimo(Long id, Conta conta, double valor, int parcelas, Date data, double juros) {
 		this.id = id;
 		this.conta = conta;
 		this.valor = valor;
-		this.data = data;
 		this.parcelas = parcelas;
+		this.dataInicio = data;
+		this.juros = juros;
 	}
 
-	public Emprestimo(Conta conta, double valor, Date data, int parcelas) {
+	public Emprestimo(Conta conta, double valor, int parcelas, Date data, double juros) {
 		this.conta = conta;
 		this.valor = valor;
-		this.data = data;
 		this.parcelas = parcelas;
+		this.dataInicio = data;
+		this.juros = juros;
 	}
 	
 	// Getters e Setters
@@ -59,11 +63,11 @@ public class Emprestimo {
 	}
 
 	public Date getData() {
-		return data;
+		return dataInicio;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setData(Date dataInicio) {
+		this.dataInicio = dataInicio;
 	}
 
 	public int getParcelas() {
@@ -72,6 +76,22 @@ public class Emprestimo {
 
 	public void setParcelas(int parcelas) {
 		this.parcelas = parcelas;
+	}
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public double getJuros() {
+		return juros;
+	}
+
+	public void setJuros(double juros) {
+		this.juros = juros;
 	}
 
 }

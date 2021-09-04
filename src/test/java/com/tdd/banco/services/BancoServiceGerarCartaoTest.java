@@ -29,8 +29,6 @@ public class BancoServiceGerarCartaoTest {
 	private Cartao cartao3;
 	private Cartao cartao4;
 	private Cartao cartao5;
-	private Cartao cartao6;
-	private Cartao cartao7;
 	
 	private List<Cartao> cartoesConta1 = new ArrayList<Cartao>();
 	
@@ -80,23 +78,6 @@ public class BancoServiceGerarCartaoTest {
 	public void deveLancarExceptionAoGerarCartaoSemContaVinculada_2() throws Exception {
 		banco1.gerarCartao(null, limiteUm);
 	}
-	
-//	@Test
-//	public void deveLancarExceptionAoGerarCartaoCasaOCartaoSejaNulo() throws CartaoSemContaVinculada, CartaoLimiteNaoInformado {
-//		try {
-////			Ação
-//			banco1.gerarCartao(conta1, limiteUm);
-//			fail("Não deveria executar esta linha");
-//		} catch (CartaoNuloException e) {
-////			Validação
-//			assertEquals(e.getMessage(), "Cartão nao deve ser nulo");
-//		}
-//	}
-//	
-//	@Test(expected = Exception.class)
-//	public void deveLancarExceptionAoGerarCartaoCasaOCartaoSejaNulo_2() throws Exception {
-//		banco1.gerarCartao(conta1, limiteUm);
-//	}
 	
 	@Test
 	public void deveLancarExceptionCasoOClienteNaoInformeOLimite() throws CartaoSemContaVinculada, ContaLimiteDeCartoesAtingido {

@@ -6,37 +6,28 @@ public class Emprestimo {
 	
 	private Long id;
 	
-	private Conta conta;
-	
 	private double valor;
 	
 	private int parcelas;
 	
-	private Date dataInicio;
-	
 	private double juros;
 
+	private Date dataInicio;
+	
+	private boolean quitado;
+	
 	// Construtores
 	public Emprestimo() {
 	}
 	
-	public Emprestimo(Long id, Conta conta, double valor, int parcelas, Date data, double juros) {
-		this.id = id;
-		this.conta = conta;
+	public Emprestimo(double valor, int parcelas, double juros, Date dataInicio) {
 		this.valor = valor;
 		this.parcelas = parcelas;
-		this.dataInicio = data;
 		this.juros = juros;
+		this.dataInicio = dataInicio;
+		this.quitado = false;
 	}
 
-	public Emprestimo(Conta conta, double valor, int parcelas, Date data, double juros) {
-		this.conta = conta;
-		this.valor = valor;
-		this.parcelas = parcelas;
-		this.dataInicio = data;
-		this.juros = juros;
-	}
-	
 	// Getters e Setters
 	public Long getId() {
 		return id;
@@ -44,14 +35,6 @@ public class Emprestimo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Conta getConta() {
-		return conta;
-	}
-
-	public void setConta(Conta conta) {
-		this.conta = conta;
 	}
 
 	public double getValor() {
@@ -92,6 +75,39 @@ public class Emprestimo {
 
 	public void setJuros(double juros) {
 		this.juros = juros;
+	}
+
+	public boolean isQuitado() {
+		return quitado;
+	}
+
+	public void setQuitado(boolean quitado) {
+		this.quitado = quitado;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Emprestimo other = (Emprestimo) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

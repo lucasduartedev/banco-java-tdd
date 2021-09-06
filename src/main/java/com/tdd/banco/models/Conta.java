@@ -153,9 +153,6 @@ public class Conta {
 		result = prime * result + ((cliente == null) ? 0 : cliente.hashCode());
 		result = prime * result + ((conta == null) ? 0 : conta.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(saldo);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -187,8 +184,6 @@ public class Conta {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (Double.doubleToLongBits(saldo) != Double.doubleToLongBits(other.saldo))
 			return false;
 		return true;
 	}

@@ -3,6 +3,7 @@ package com.tdd.banco.services;
 import com.tdd.banco.exceptions.CartaoLimiteNaoInformado;
 import com.tdd.banco.exceptions.CartaoSemContaVinculada;
 import com.tdd.banco.exceptions.ContaLimiteDeCartoesAtingido;
+import com.tdd.banco.exceptions.EmprestimoException;
 import com.tdd.banco.exceptions.GeradorDeContaSemClienteException;
 import com.tdd.banco.models.Cartao;
 import com.tdd.banco.models.Cliente;
@@ -50,8 +51,25 @@ public class BancoService {
 		return c;
 	}
 	
-	public Emprestimo gerarEmprestimo() {
-		return null;
+	public Emprestimo gerarEmprestimo(Conta conta, double valor, int parcelas) throws EmprestimoException {
+		
+		if(conta == null) {
+			throw new EmprestimoException("Conta não pode ser nula");
+		}
+		if(valor < 150.0) {
+			throw new EmprestimoException("Valor minimo necessario");
+		}
+		if(conta.getEmprestimos().size() >= 2) {
+			throw new EmprestimoException("Limite de emprestimos atingido");
+		}
+		
+		Emprestimo e = new Emprestimo();
+		
+		// Associar emprestimo a conta
+//		conta.getEmprestimos().add(e);
+		
+		// Criar teste deve retornar objeto do tipo emprestimo
+		return e;
 	}
 	
 }

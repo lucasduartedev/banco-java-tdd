@@ -20,11 +20,11 @@ public class Emprestimo {
 	public Emprestimo() {
 	}
 	
-	public Emprestimo(double valor, int parcelas, double juros, Date dataInicio) {
+	public Emprestimo(double valor, int parcelas, double juros) {
 		this.valor = valor;
 		this.parcelas = parcelas;
 		this.juros = juros;
-		this.dataInicio = dataInicio;
+		this.dataInicio = new Date();
 		this.quitado = false;
 	}
 

@@ -52,8 +52,8 @@ public class BancoServiceGerarEmprestimo {
 		}
 	}
 	
-	@Test(expected = Exception.class)
-	public void deveLancarException_ContaNula_2() throws Exception {
+	@Test(expected = EmprestimoException.class)
+	public void deveLancarException_ContaNula_2() throws EmprestimoException {
 		banco1.gerarEmprestimo(null, 1500.0, 15);
 	}
 	
@@ -67,8 +67,8 @@ public class BancoServiceGerarEmprestimo {
 		}
 	}
 	
-	@Test(expected = Exception.class)
-	public void deveLancarException_ValorMinimoNecessario_2() throws Exception {
+	@Test(expected = EmprestimoException.class)
+	public void deveLancarException_ValorMinimoNecessario_2() throws EmprestimoException {
 		banco1.gerarEmprestimo(conta1, 140.0, 2);
 	}
 	
@@ -92,7 +92,7 @@ public class BancoServiceGerarEmprestimo {
 	}
 	
 	@Test(expected = EmprestimoException.class)
-	public void deveLancarException_LimiteDeEmprestimosAtingido_2() throws Exception {
+	public void deveLancarException_LimiteDeEmprestimosAtingido_2() throws EmprestimoException {
 		// Cenário
 		emprestimosConta1.add(emprestimo1);
 		emprestimosConta1.add(emprestimo2);
@@ -101,5 +101,5 @@ public class BancoServiceGerarEmprestimo {
 		// Ação
 		banco1.gerarEmprestimo(conta1, 1500.0, 5);
 	}
-
+	
 }

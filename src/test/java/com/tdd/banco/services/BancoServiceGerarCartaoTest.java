@@ -74,8 +74,8 @@ public class BancoServiceGerarCartaoTest {
 		}
 	}
 	
-	@Test(expected = Exception.class)
-	public void deveLancarExceptionAoGerarCartaoSemContaVinculada_2() throws Exception {
+	@Test(expected = CartaoSemContaVinculada.class)
+	public void deveLancarExceptionAoGerarCartaoSemContaVinculada_2() throws CartaoSemContaVinculada, CartaoLimiteNaoInformado, ContaLimiteDeCartoesAtingido {
 		banco1.gerarCartao(null, limiteUm);
 	}
 	
@@ -91,8 +91,8 @@ public class BancoServiceGerarCartaoTest {
 		}
 	}
 	
-	@Test(expected = Exception.class)
-	public void deveLancarExceptionCasoOClienteNaoInformeOLimite_2() throws Exception {
+	@Test(expected = CartaoLimiteNaoInformado.class)
+	public void deveLancarExceptionCasoOClienteNaoInformeOLimite_2() throws CartaoLimiteNaoInformado, CartaoSemContaVinculada, ContaLimiteDeCartoesAtingido {
 		banco1.gerarCartao(conta1, 0.0);
 	}
 	
@@ -108,8 +108,8 @@ public class BancoServiceGerarCartaoTest {
 		}
 	}
 	
-	@Test(expected = Exception.class)
-	public void deveLancarExceptionCasoAlgumaContaComCincoCartoesJaCriadosTenteCriarMainUm_2() throws Exception {
+	@Test(expected = ContaLimiteDeCartoesAtingido.class)
+	public void deveLancarExceptionCasoAlgumaContaComCincoCartoesJaCriadosTenteCriarMainUm_2() throws ContaLimiteDeCartoesAtingido, CartaoSemContaVinculada, CartaoLimiteNaoInformado {
 		banco1.gerarCartao(conta1, limiteUm);
 	}
 	

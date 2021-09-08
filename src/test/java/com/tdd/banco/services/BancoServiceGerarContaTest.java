@@ -1,7 +1,5 @@
 package com.tdd.banco.services;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,13 +26,8 @@ public class BancoServiceGerarContaTest {
 		conta1 = banco1.gerarContaBancaria(cliente1);
 	}
 	
-//	@Test
-	public void deveRealizarAssertivaVerdadeira() {
-		assertTrue(true);
-	}
-	
-	@Test(expected = Exception.class)
-	public void DeveLancarExceptionAoTentarCriarContaSemClienteAssociado() throws Exception {
+	@Test(expected = GeradorDeContaSemClienteException.class)
+	public void DeveLancarExceptionAoTentarCriarContaSemClienteAssociado() throws GeradorDeContaSemClienteException {
 		banco1.gerarContaBancaria(null);
 	}
 	

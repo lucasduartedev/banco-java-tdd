@@ -55,20 +55,17 @@ public class BancoService {
 		
 		if(conta == null) {
 			throw new EmprestimoException("Conta não pode ser nula");
-		}
-		if(valor < 150.0) {
+		} else if(valor < 150.0) {
 			throw new EmprestimoException("Valor minimo necessario");
-		}
-		if(conta.getEmprestimos().size() >= 2) {
+		} else if(conta.getEmprestimos().size() >= 2) {
 			throw new EmprestimoException("Limite de emprestimos atingido");
 		}
 		
-		Emprestimo e = new Emprestimo();
+		Emprestimo e = new Emprestimo(valor, parcelas, 8.9);
 		
 		// Associar emprestimo a conta
-//		conta.getEmprestimos().add(e);
+		conta.getEmprestimos().add(e);
 		
-		// Criar teste deve retornar objeto do tipo emprestimo
 		return e;
 	}
 	

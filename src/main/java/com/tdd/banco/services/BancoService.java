@@ -1,5 +1,8 @@
 package com.tdd.banco.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.tdd.banco.exceptions.CartaoLimiteNaoInformado;
 import com.tdd.banco.exceptions.CartaoSemContaVinculada;
 import com.tdd.banco.exceptions.ContaLimiteDeCartoesAtingido;
@@ -11,6 +14,24 @@ import com.tdd.banco.models.Conta;
 import com.tdd.banco.models.Emprestimo;
 
 public class BancoService {
+	
+	public List<Double> gerarParcelas(double valor, int nParcelas, int desconto) {
+		
+		List<Double> p = new ArrayList<Double>();
+		
+		double valorParcela = valor / nParcelas;
+		
+		for(int i = 0; i < nParcelas; i++) {
+			if(desconto == 0) {
+				p.add(valorParcela);
+			} else {
+				p.add(valorParcela - (valorParcela / 100 * desconto));
+			}
+			
+		}
+		
+		return p;
+	}
 	
 	public Conta gerarContaBancaria(Cliente cliente) throws GeradorDeContaSemClienteException {
 		// conta sem titular
@@ -61,7 +82,9 @@ public class BancoService {
 			throw new EmprestimoException("Limite de emprestimos atingido");
 		}
 		
-		Emprestimo e = new Emprestimo(valor, parcelas, 8.9);
+		double juros = 8.9;
+		
+		Emprestimo e = new Emprestimo(valor, parcelas, juros);
 		
 		// Associar emprestimo a conta
 		conta.getEmprestimos().add(e);

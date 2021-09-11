@@ -2,11 +2,7 @@ package com.tdd.banco.models;
 
 import java.util.List;
 
-import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
-import com.tdd.banco.exceptions.ContaSaqueComSaldoInsuficiente;
-import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
-import com.tdd.banco.exceptions.ContaTranferenciaComContaDestidoInexistente;
-import com.tdd.banco.exceptions.ContaTransferenciaComValorAbaixoDoMinimo;
+import com.tdd.banco.exceptions.ContaException;
 
 public class Conta {
 
@@ -43,16 +39,6 @@ public class Conta {
 		this.cliente = cliente;
 	}
 
-	// Apenas para teste, será apagado
-//	public Conta(String conta, String agencia, double saldo, Cliente cliente) {
-//		this.conta = conta;
-//		this.agencia = agencia;
-//		this.saldo = saldo;
-//		this.cliente = cliente;
-//	}
-
-	// Métodos Especiais
-
 	private void inserirSaldo(double valor) {
 		this.setSaldo(getSaldo() + valor);
 	}
@@ -61,28 +47,28 @@ public class Conta {
 		this.setSaldo(this.getSaldo() - valor);
 	}
 
-	public void depositar(double valorDeposito) throws ContaDepositoValorNegativoException {
+	public void depositar(double valorDeposito) throws ContaException {
 		if (valorDeposito < 0.0) {
-			throw new ContaDepositoValorNegativoException("Deposito com valor negativo");
+			throw new ContaException("Deposito com valor negativo");
 		}
 		this.inserirSaldo(valorDeposito);
 	}
 
-	public void sacar(double valorSaque) throws ContaSaqueComValorNegativoException, ContaSaqueComSaldoInsuficiente {
+	public void sacar(double valorSaque) throws ContaException {
 		if (valorSaque < 0.0) {
-			throw new ContaSaqueComValorNegativoException("Saque com valor negativo");
+			throw new ContaException("Saque com valor negativo");
 		} else if (this.getSaldo() < valorSaque) {
-			throw new ContaSaqueComSaldoInsuficiente("Saldo insuficiente");
+			throw new ContaException("Saldo insuficiente");
 		}
 		this.removerSaldo(valorSaque);
 	}
 
-	public void transferir(Conta conta, double valorTransferencia) throws ContaTransferenciaComValorAbaixoDoMinimo, ContaTranferenciaComContaDestidoInexistente {
+	public void transferir(Conta conta, double valorTransferencia) throws ContaException {
 		// Verificar valor minimo informado
 		if(conta == null) {
-			throw new ContaTranferenciaComContaDestidoInexistente("É necessario uma conta de destino");
+			throw new ContaException("É necessario uma conta de destino");
 		} else if (valorTransferencia <= 0.0) {
-			throw new ContaTransferenciaComValorAbaixoDoMinimo("E necessario valor minimo");
+			throw new ContaException("E necessario valor minimo");
 		}
 		this.removerSaldo(valorTransferencia);
 		conta.inserirSaldo(valorTransferencia);

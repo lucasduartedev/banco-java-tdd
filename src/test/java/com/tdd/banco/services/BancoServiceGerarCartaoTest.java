@@ -11,9 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
-import com.tdd.banco.exceptions.CartaoLimiteNaoInformado;
-import com.tdd.banco.exceptions.CartaoSemContaVinculada;
-import com.tdd.banco.exceptions.ContaLimiteDeCartoesAtingido;
+import com.tdd.banco.exceptions.ContaException;
 import com.tdd.banco.exceptions.GeradorDeContaSemClienteException;
 import com.tdd.banco.models.Cartao;
 import com.tdd.banco.models.Cliente;
@@ -63,58 +61,58 @@ public class BancoServiceGerarCartaoTest {
 	}
 	
 	@Test
-	public void deveLancarExceptionAoGerarCartaoSemContaVinculada() throws CartaoLimiteNaoInformado, ContaLimiteDeCartoesAtingido {
+	public void deveLancarExceptionAoGerarCartaoSemContaVinculada() throws ContaException {
 		try {
 //			Ação
 			banco1.gerarCartao(null, limiteUm);
 			fail("Não deveria executar esta linha");
-		} catch (CartaoSemContaVinculada e) {
+		} catch (ContaException e) {
 //			Validação
 			assertEquals(e.getMessage(), "Cartão deve ter um conta vinculada");
 		}
 	}
 	
-	@Test(expected = CartaoSemContaVinculada.class)
-	public void deveLancarExceptionAoGerarCartaoSemContaVinculada_2() throws CartaoSemContaVinculada, CartaoLimiteNaoInformado, ContaLimiteDeCartoesAtingido {
+	@Test(expected = ContaException.class)
+	public void deveLancarExceptionAoGerarCartaoSemContaVinculada_2() throws ContaException {
 		banco1.gerarCartao(null, limiteUm);
 	}
 	
 	@Test
-	public void deveLancarExceptionCasoOClienteNaoInformeOLimite() throws CartaoSemContaVinculada, ContaLimiteDeCartoesAtingido {
+	public void deveLancarExceptionCasoOClienteNaoInformeOLimite() throws ContaException {
 		try {
 			// Ação
 			banco1.gerarCartao(conta1, 0.0);
 			fail("Não deveria dar continuidade");
-		} catch (CartaoLimiteNaoInformado e) {
+		} catch (ContaException e) {
 			// Validação
 			assertEquals(e.getMessage(), "O cliente deve informar o limite");
 		}
 	}
 	
-	@Test(expected = CartaoLimiteNaoInformado.class)
-	public void deveLancarExceptionCasoOClienteNaoInformeOLimite_2() throws CartaoLimiteNaoInformado, CartaoSemContaVinculada, ContaLimiteDeCartoesAtingido {
+	@Test(expected = ContaException.class)
+	public void deveLancarExceptionCasoOClienteNaoInformeOLimite_2() throws ContaException {
 		banco1.gerarCartao(conta1, 0.0);
 	}
 	
 	@Test
-	public void deveLancarExceptionCasoAlgumaContaComCincoCartoesJaCriadosTenteCriarMainUm() throws CartaoSemContaVinculada, CartaoLimiteNaoInformado {
+	public void deveLancarExceptionCasoAlgumaContaComCincoCartoesJaCriadosTenteCriarMainUm() throws ContaException {
 		try {
 			// Ação
 			banco1.gerarCartao(conta1, limiteUm);
 			fail("Deveria lanças exception");
-		} catch (ContaLimiteDeCartoesAtingido e) {
+		} catch (ContaException e) {
 			// Validação
 			assertEquals(e.getMessage(), "Limite de cartões atingido");
 		}
 	}
 	
-	@Test(expected = ContaLimiteDeCartoesAtingido.class)
-	public void deveLancarExceptionCasoAlgumaContaComCincoCartoesJaCriadosTenteCriarMainUm_2() throws ContaLimiteDeCartoesAtingido, CartaoSemContaVinculada, CartaoLimiteNaoInformado {
+	@Test(expected = ContaException.class)
+	public void deveLancarExceptionCasoAlgumaContaComCincoCartoesJaCriadosTenteCriarMainUm_2() throws ContaException {
 		banco1.gerarCartao(conta1, limiteUm);
 	}
 	
 	@Test
-	public void deveGerarUmCartaoESomarUmTotalDeCincoCartoes() throws CartaoSemContaVinculada, CartaoLimiteNaoInformado, ContaLimiteDeCartoesAtingido {
+	public void deveGerarUmCartaoESomarUmTotalDeCincoCartoes() throws ContaException {
 		// Cenário
 		// Removendo um cartão - Reajuste de cenário
 		conta1.getCartoes().remove(1);

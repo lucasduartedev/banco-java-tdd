@@ -9,11 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
-import com.tdd.banco.exceptions.ContaDepositoValorNegativoException;
-import com.tdd.banco.exceptions.ContaSaqueComSaldoInsuficiente;
-import com.tdd.banco.exceptions.ContaSaqueComValorNegativoException;
-import com.tdd.banco.exceptions.ContaTranferenciaComContaDestidoInexistente;
-import com.tdd.banco.exceptions.ContaTransferenciaComValorAbaixoDoMinimo;
+import com.tdd.banco.exceptions.ContaException;
 
 public class ContaTest {
 
@@ -37,13 +33,13 @@ public class ContaTest {
 		try {
 			conta1.depositar(-0.1);
 			fail("Não deveria depositar valor negativo");
-		} catch (ContaDepositoValorNegativoException e) {
+		} catch (ContaException e) {
 			Assert.assertEquals(e.getMessage(), "Deposito com valor negativo");
 		}
 	}
 	
-	@Test(expected = Exception.class)
-	public void deveLancarExceptionAoDepositarValorNegativo_2() throws Exception {
+	@Test(expected = ContaException.class)
+	public void deveLancarExceptionAoDepositarValorNegativo_2() throws ContaException {
 		conta1.depositar(-250.5);
 	}
 
@@ -64,13 +60,13 @@ public class ContaTest {
 		try {
 			conta1.sacar(-15.9);
 			fail("Não deveria realizar saque com valor negativo");
-		} catch (ContaSaqueComValorNegativoException e) {
+		} catch (ContaException e) {
 			assertEquals(e.getMessage(), "Saque com valor negativo");
 		}
 	}
 
 	@Test
-	public void naoDeveRealizarSaqueComSaldoInsuficiente() throws ContaSaqueComValorNegativoException {
+	public void naoDeveRealizarSaqueComSaldoInsuficiente() throws ContaException {
 		// Cenário
 		conta1.setSaldo(100.0);
 
@@ -78,24 +74,24 @@ public class ContaTest {
 		try {
 			conta1.sacar(150.0);
 			fail("Não deveria realizar saque com saldo insuficiente!");
-		} catch (ContaSaqueComSaldoInsuficiente e) {
+		} catch (ContaException e) {
 			assertEquals(e.getMessage(), "Saldo insuficiente");
 		}
 	}
 
-	@Test(expected = Exception.class)
-	public void naoDeveRealizarSaqueComSaldoInsuficiente_2() throws Exception {
+	@Test(expected = ContaException.class)
+	public void naoDeveRealizarSaqueComSaldoInsuficiente_2() throws ContaException {
 		// Ação
 		conta1.sacar(100.0);
 	}
 
 	@Test
-	public void naoDeveRealizarSaqueComSaldoInsuficiente_3() throws ContaSaqueComValorNegativoException {
+	public void naoDeveRealizarSaqueComSaldoInsuficiente_3() throws ContaException {
 
 		// Ação
 		try {
 			conta1.sacar(150.0);
-		} catch (ContaSaqueComSaldoInsuficiente e) {
+		} catch (ContaException e) {
 			// Validação
 			assertEquals(e.getMessage(), "Saldo insuficiente");
 		}
@@ -103,7 +99,7 @@ public class ContaTest {
 
 	@Test
 	public void deveDescontarDiferencaNoSaldoAoRealizarSaque()
-			throws ContaSaqueComValorNegativoException, ContaSaqueComSaldoInsuficiente {
+			throws ContaException {
 
 		// Cenario
 		conta1.setSaldo(125.5);
@@ -117,13 +113,13 @@ public class ContaTest {
 	}
 
 	@Test
-	public void deveLancarExceptionCasoOValorDaTranferenciaSejaNegativo() throws ContaTranferenciaComContaDestidoInexistente {
+	public void deveLancarExceptionCasoOValorDaTranferenciaSejaNegativo() throws ContaException {
 
 		// Ação
 		try {
 			conta1.transferir(conta2, -5.0);
 			fail("Deveria lançar exception");
-		} catch (ContaTransferenciaComValorAbaixoDoMinimo e) {
+		} catch (ContaException e) {
 			// Validação
 			assertEquals(e.getMessage(), "E necessario valor minimo");
 		}
@@ -138,7 +134,7 @@ public class ContaTest {
 	}
 
 	@Test
-	public void deveRealizarTransferenciaEntreDuasContas() throws ContaTransferenciaComValorAbaixoDoMinimo, ContaTranferenciaComContaDestidoInexistente {
+	public void deveRealizarTransferenciaEntreDuasContas() throws ContaException {
 
 		// Cenário
 		conta1.setSaldo(150.0);
@@ -153,8 +149,8 @@ public class ContaTest {
 
 	}
 
-	@Test(expected = Exception.class)
-	public void deveLancarExceptionCasoNaoExistaContaDestido() throws Exception {
+	@Test(expected = ContaException.class)
+	public void deveLancarExceptionCasoNaoExistaContaDestido() throws ContaException {
 		// Ação
 		conta1.transferir(null, 50.0);
 	}

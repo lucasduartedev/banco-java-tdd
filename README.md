@@ -8,12 +8,15 @@
 
 ## Sistema em desenvolvimento
 
-* Sistema bancário com funcionalidades simples como sacar, depositar, pegar emprestimo, etc.
+* Sistema bancário com funcionalidades simples como sacar, depositar, pegar empréstimo, etc.
+* Sem interface gráfica, apenas aplicar conhecimento na prática.
 
 ## Vantagens
 
-* Desenvolver qualquer sistema criando os testes antes das funcionalidades, diminui o tempo de testar o software a cada fim de um cilco de desenvolvimento e aumenta a qualidade do código e sistema.
+* Diminui consideravelmente o tempo de testes de software.
+* Mais qualidade ao código.
+* Ajuda a identificar o erro mais rápido.
 
-* Ajuda a identificar o erro mais rápido, já que o teste aponta onde está o erro.
-
-
+## Tecnologias Usadas
+- Projeto Java Maven
+- Junit 5

@@ -11,9 +11,9 @@
 * Sistema bancário com funcionalidades simples como sacar, depositar, pegar empréstimo, etc.
 * Sem interface gráfica, apenas aplicar conhecimento na prática.
 
-## Vantagens
+## Vantagens do TDD
 
-* Diminui consideravelmente o tempo de testes de software.
+* Diminui consideravelmente o tempo de testes e desenvolvimento dos sistemas.
 * Mais qualidade ao código.
 * Ajuda a identificar o erro mais rápido.
 
